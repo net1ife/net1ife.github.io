@@ -21,12 +21,14 @@ nav ul {
 
 nav ul li a,
 a {
-    color: #f0f0f0;
+    color: #88ff88;
+    /* Set the link color to match the title */
     text-decoration: none;
 }
 
 a:hover {
-    color: #88ff88;
+    color: #f0f0f0;
+    /* Set the hover color to light grey for contrast */
 }
 
 header {
