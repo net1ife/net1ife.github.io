@@ -1,9 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #283637;
+    color: #fff;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -12,13 +11,30 @@ body {
     box-sizing: border-box;
 }
 
+.game-container {
+    width: 80%;
+    max-width: 600px;
+    background-color: #3c4f5d;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 #sudoku-board {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
-    gap: 15px;
-    width: 450px;
-    height: 450px;
+    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    border-radius: 10px;
 }
 
 #sudoku-board input {
@@ -27,16 +43,23 @@ body {
     border: none;
     text-align: center;
     font-size: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    background-color: #f4f4f4;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+
+#sudoku-board input.error {
+    background-color: #ff8787;
+    color: #fff;
 }
 
 button {
     margin-top: 20px;
     padding: 10px 20px;
     border: none;
-    background-color: #333;
+    background-color: #6991ac;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
 }
