@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ethereum Contract Creations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <h1>Ethereum Contract Creations</h1>
+    <p>This page fetches data for the latest block on Ethereum mainnet when the page is loaded. Refresh the page to get new data.</p>
+    <div id="results"></div>
+    <script>
+        // Connect to Ethereum mainnet via Infura
+        const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/f38ec3cfb102401da04f4e0fbcb041f2'));
+
+        function getLatestBlockNumber() {
+            return web3.eth.getBlockNumber();
+        }
+
+        function getBlockData(blockNumber) {
+            return web3.eth.getBlock(blockNumber, true);  // 'true' to get full transactions
+        }
+
+        function filterContractCreationTransactions(blockData) {
+            return blockData.transactions.filter(tx => tx.to === null);  // contract creation transactions have 'to' field as null
+        }
+
+        getLatestBlockNumber().then(blockNumber => {
+            getBlockData(blockNumber).then(blockData => {
+                const contractCreationTransactions = filterContractCreationTransactions(blockData);
+                const resultsElement = document.getElementById('results');
+                contractCreationTransactions.forEach(tx => {
+                    resultsElement.innerHTML += `
+                        <p>
+                            Block: ${blockData.number}<br>
+                            From: ${tx.from}<br>
+                            Contract Address: ${tx.contractAddress}<br>
+                            Timestamp: ${new Date(blockData.timestamp * 1000).toLocaleString()}<br>
+                            ---------------------
+                        </p>
+                    `;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
