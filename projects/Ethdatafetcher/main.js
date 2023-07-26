@@ -1,5 +1,5 @@
 const Web3 = window.Web3;
-const web3 = new Web3(new Web3.providers.HttpProvider(`https://mainnet.infura.io/v3/${localStorage.getItem('INFURA_PROJECT_ID')}`));
+const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/f38ec3cfb102401da04f4e0fbcb041f2'));
 
 const contentDiv = document.getElementById('content');
 const blockForm = document.getElementById('blockForm');
