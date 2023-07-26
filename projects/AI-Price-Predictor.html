@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Price Predictor</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>AI Price Predictor</h1>
+    </header>
+
+    <section id="project-overview">
+        <h2>Project Overview</h2>
+        <p>
+            The AI Price Predictor is an application which uses a combination of a Long Short-Term Memory (LSTM) model
+            and
+            Bayesian Optimization to predict stock prices. It fetches the historical data, trains the LSTM model,
+            optimizes the
+            model's hyperparameters and then uses the model to predict the next day's opening, closing, highest, and
+            lowest prices.
+        </p>
+    </section>
+
+    <section id="technical-details">
+        <h2>Technical Details</h2>
+        <p>
+            The project is developed in Python, using the following libraries and technologies:
+        </p>
+        <ul>
+            <li>Streamlit for creating the web app</li>
+            <li>PyTorch for creating and training the LSTM model</li>
+            <li>Bayesian Optimization for optimizing the model's hyperparameters</li>
+            <li>Yahoo Finance for fetching the historical data</li>
+            <li>Technical Analysis Library in Python (TA-Lib) for calculating technical indicators</li>
+            <li>Scikit-learn for preprocessing the data</li>
+        </ul>
+    </section>
+
+    <section id="project-challenges">
+        <h2>Challenges</h2>
+        <p>
+            One of the main challenges was to find the optimal combination of hyperparameters for the LSTM model.
+            To solve this problem, Bayesian Optimization was used, which significantly improved the model's accuracy.
+        </p>
+        <p>
+            Another challenge was dealing with noisy stock market data. A solution was to use technical indicators
+            calculated by TA-Lib, which smoothed out the noise and improved the model's performance.
+        </p>
+    </section>
+
+    <section id="results">
+        <h2>Results</h2>
+        <p>
+            The application successfully predicts the next day's opening, closing, highest, and lowest prices of a
+            chosen stock.
+            However, it's important to note that stock price prediction is inherently uncertain and this tool should be
+            used as a
+            part of a comprehensive investment strategy.
+        </p>
+    </section>
+
+    <a class="github-link" href="https://github.com/net1ife/AI-Price-Predictor">View on
+        GitHub</a>
+
+    <footer>
+        <p>&copy; 2023 My Portfolio</p>
+    </footer>
+</body>
+
+</html>
