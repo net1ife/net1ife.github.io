@@ -3,7 +3,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io
 
 const contentDiv = document.getElementById('content');
 const blockForm = document.getElementById('blockForm');
-const blockNumber = document.getElementById('blockNumber');
+const blockRange = document.getElementById('blockRange');
 
 async function getBlockDetails(blockNumber) {
     try {
@@ -66,7 +66,7 @@ async function printBlocks(numBlocks) {
 }
 
 blockForm.onsubmit = function(e) {
-    e.preventDefault();  // Prevent the form from refreshing the page
-    contentDiv.innerHTML = "";  // Clear the content
-    printBlocks(blockNumber.value);  // Print the requested number of blocks
+    e.preventDefault();  
+    contentDiv.innerHTML = "";  
+    printBlocks(blockRange.value);  
 }
