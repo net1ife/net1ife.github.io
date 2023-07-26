@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.4/dist/web3.min.js"></script>
+    <title>Ethereum Block Explorer</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <header>
+    <div class="container">
         <h1>Ethereum Block Explorer</h1>
-    </header>
-
-    <main>
         <form id="blockForm">
-            <label for="blockNumber">Number of blocks to go back:</label><br>
-            <input type="number" id="blockNumber" name="blockNumber" value="10"><br>
-            <input type="submit" value="Explore">
+            <input type="number" id="blockNumber" placeholder="Enter the number of blocks to retrieve...">
+            <button type="submit">Submit</button>
         </form>
         <div id="content"></div>
-    </main>
-
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
