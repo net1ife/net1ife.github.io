@@ -2,11 +2,11 @@
 const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/f38ec3cfb102401da04f4e0fbcb041f2'));
 
 function getBlockData(blockNumber) {
-    return web3.eth.getBlock(blockNumber, true);  
+    return web3.eth.getBlock(blockNumber, true);  // 'true' to get full transactions
 }
 
 function filterContractCreationTransactions(blockData) {
-    return blockData.transactions.filter(tx => tx.to === null); 
+    return blockData.transactions.filter(tx => tx.to === null);  // contract creation transactions have 'to' field as null
 }
 
 function fetchAndDisplayBlockData(blockNumber) {
@@ -28,7 +28,7 @@ function fetchAndDisplayBlockData(blockNumber) {
 }
 
 web3.eth.getBlockNumber().then(latestBlockNumber => {
-    for(let i = 0; i < 10; i++) {
+    for(let i = 0; i < 100; i++) {
         fetchAndDisplayBlockData(latestBlockNumber - i);
     }
 });
