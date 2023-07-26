@@ -3,29 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.8.6/dist/tf.min.js"></script>
     <title>Neural Net Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main>
-        <section id="game-settings">
-            <h1>Neural Net Game Settings</h1>
-            <form id="settings-form">
-                <label for="breed-threshold">Breed Threshold: 
-                    <input type="number" id="breed-threshold" name="breed-threshold" min="0" max="1" step="0.01" value="0.75">
-                </label>
-                <label for="update-delay">Update Delay (ms): 
-                    <input type="number" id="update-delay" name="update-delay" min="10" max="2000" step="10" value="100">
-                </label>
-                <button type="submit">Update Settings</button>
-            </form>
-            <button id="reset-btn">Reset Game</button>
-        </section>
-        <section id="game-board">
-            <canvas id="canvas" width="400" height="400"></canvas>
-        </section>
-    </main>
+    <div class="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div class="control-panel">
+            <button class="control-btn" id="reset-btn">Reset</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="main.js"></script>
 </body>
 </html>
