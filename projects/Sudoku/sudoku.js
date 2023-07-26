@@ -10,14 +10,22 @@ function drawBoard() {
         cell.type = 'text';
         cell.maxLength = '1';
         cell.value = board[i] !== 0 ? board[i] : '';
+        cell.addEventListener('input', checkValidity);
         boardElement.appendChild(cell);
     }
 }
 
+function checkValidity(e) {
+    let value = e.target.value;
+    if (value === '') return;
+    if (!Number.isInteger(parseInt(value)) || value < 1 || value > 9) {
+        e.target.classList.add('error');
+    } else {
+        e.target.classList.remove('error');
+    }
+}
+
 function generatePuzzle() {
-    // This is a very simple "puzzle generation" for demo purposes
-    // For a real game, you'd want a more sophisticated algorithm
-    // that can generate proper puzzles with unique solutions
     for(let i = 0; i < 81; i++) {
         board[i] = Math.random() < 0.2 ? Math.ceil(Math.random() * 9) : 0;
     }
@@ -26,5 +34,4 @@ function generatePuzzle() {
 
 newGameButton.addEventListener('click', generatePuzzle);
 
-// Generate a new puzzle when the page loads
 generatePuzzle();
