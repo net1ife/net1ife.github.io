@@ -1,53 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DEX Pair Query</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 2em 0;
-    }
-    h1 {
-      text-align: center;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    input[type="submit"] {
-      margin-top: 1em;
-    }
-    #result {
-      margin-top: 2em;
-      word-break: break-all;
-    }
-  </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>DEX Pairs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #pairs {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Token Pairs with Highest Liquidity</h1>
-    <p>This application fetches the token pairs with the highest liquidity from either Uniswap or Sushiswap.</p>
-    <form id="form">
-      <label for="exchange">Exchange:</label><br>
-      <select id="exchange" name="exchange">
-        <option value="uniswap">Uniswap</option>
-        <option value="sushiswap">Sushiswap</option>
-      </select><br>
-      <label for="pairs">Number of pairs:</label><br>
-      <input type="number" id="pairs" name="pairs" min="1" max="20"><br>
-      <input type="submit" value="Submit">
+    <h1>DEX Pairs</h1>
+    <p>Select a DEX and number of pairs to retrieve:</p>
+    <form id="dexForm">
+        <label for="dex">DEX:</label><br>
+        <select id="dex" name="dex">
+            <option value="uniswap">Uniswap</option>
+            <option value="sushiswap">Sushiswap</option>
+        </select><br>
+        <label for="num_pairs">Number of pairs:</label><br>
+        <input type="number" id="num_pairs" name="num_pairs" value="5"><br><br>
+        <input type="submit" value="Get Pairs">
     </form>
-    <div id="result"></div>
-  </div>
-  <script src="script.js"></script>
+    <div id="pairs"></div>
+    <script>
+        const form = document.getElementById('dexForm');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const dex = document.getElementById('dex').value;
+            const num_pairs = document.getElementById('num_pairs').value;
+            let subgraph_url;
+            if (dex === 'uniswap') {
+                subgraph_url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
+            } else {
+                subgraph_url = 'https://api.thegraph.com/subgraphs/name/sushiswap/exchange';
+            }
+            const query = `
+                query {
+                    pairs(first: ${num_pairs}, orderBy: reserveUSD, orderDirection: desc) {
+                        token0 {
+                            symbol
+                            id
+                        }
+                        token1 {
+                            symbol
+                            id
+                        }
+                        reserveUSD
+                    }
+                }
+            `;
+            fetch(subgraph_url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                let pairsElement = document.getElementById('pairs');
+                pairsElement.innerHTML = '<h2>DEX Pairs</h2>';
+                data.data.pairs.forEach(pair => {
+                    pairsElement.innerHTML += `<p>Pair: ${pair.token0.symbol}-${pair.token1.symbol}, Reserve: ${pair.reserveUSD}</p>`;
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>
