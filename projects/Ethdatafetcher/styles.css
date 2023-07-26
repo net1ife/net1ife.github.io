@@ -1,45 +1,80 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F4F4F4;
+    background-color: #121212;
+    color: #eeeeee;
+    line-height: 1.6;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
-main {
-    padding: 20px;
-    width: 60%;
-    margin: auto;
-}
-
-form {
+h1 {
+    font-size: 2.5em;
     margin-bottom: 20px;
 }
 
-form input[type="number"] {
-    padding: 5px;
+p {
+    margin-bottom: 10px;
+}
+
+#content {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#content h2, #content p {
+    background-color: #1e1e1e;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px -10px rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    border-left: 5px solid #3f51b5;
+}
+
+#content h2::after, #content p::after {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: #333;
     margin: 10px 0;
 }
 
-form input[type="submit"] {
-    padding: 5px 10px;
-    background-color: #333;
-    color: white;
+#blockForm {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#blockForm input {
+    font-size: 1em;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+#blockForm button {
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3f51b5;
+    color: #ffffff;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-form input[type="submit"]:hover {
-    background-color: #444;
+#blockForm button:hover {
+    background-color: #283593;
 }
 
-div#content h2 {
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-}
