@@ -7,22 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main>
+    <main class="container">
         <h1>DEX Pairs</h1>
-        <p>Select a Decentralized Exchange (DEX) and the number of trading pairs to retrieve:</p>
-        <form id="dexForm">
-            <div class="form-group">
-                <label for="dex">DEX:</label>
-                <select id="dex" name="dex">
-                    <option value="uniswap">Uniswap</option>
-                    <option value="sushiswap">Sushiswap</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="num_pairs">Number of pairs:</label>
-                <input type="number" id="num_pairs" name="num_pairs" value="5">
-            </div>
-            <button type="submit" class="btn">Get Pairs</button>
+        <p>This application retrieves the top liquidity pairs from selected Decentralized Exchange (DEX).</p>
+        <form id="dexForm" class="form-control">
+            <label for="dex">Select DEX:</label>
+            <select id="dex" name="dex">
+                <option value="uniswap">Uniswap</option>
+                <option value="sushiswap">Sushiswap</option>
+            </select>
+
+            <label for="num_pairs">Number of pairs:</label>
+            <input type="number" id="num_pairs" name="num_pairs" min="1" max="100" value="5">
+            
+            <input type="submit" value="Get Pairs">
         </form>
         <div id="pairs"></div>
     </main>
