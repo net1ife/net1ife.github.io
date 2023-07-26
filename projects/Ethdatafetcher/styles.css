@@ -54,13 +54,15 @@ p {
     margin-bottom: 20px;
 }
 
-#blockForm input {
+#blockForm label {
     font-size: 1em;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin-right: 10px;
+    padding: 10px 0;
     flex-grow: 1;
+}
+
+#blockForm input[type="range"] {
+    flex-grow: 2;
+    margin-right: 10px;
 }
 
 #blockForm button {
