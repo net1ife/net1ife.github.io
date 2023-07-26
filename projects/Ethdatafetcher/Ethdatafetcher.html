@@ -11,9 +11,9 @@
 
     <main>
         <form id="blockForm">
-            <label for="blockNumber">Number of blocks to go back:</label><br>
-            <input type="number" id="blockNumber" name="blockNumber" value="10"><br>
-            <input type="submit" value="Explore">
+            <label for="blockRange">Number of blocks to go back: <span id="blockValue">10</span></label><br>
+            <input type="range" id="blockRange" name="blockRange" min="1" max="100" value="10" oninput="blockValue.textContent = blockRange.value"><br>
+            <button type="submit">Explore</button>
         </form>
         <div id="content"></div>
     </main>
