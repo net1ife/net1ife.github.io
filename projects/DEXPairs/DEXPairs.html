@@ -2,18 +2,52 @@
 <html>
 <head>
   <title>DEX Pair Query</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 2em 0;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="submit"] {
+      margin-top: 1em;
+    }
+    #result {
+      margin-top: 2em;
+      word-break: break-all;
+    }
+  </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-  <h1>Get DEX Pairs</h1>
-  <form id="form">
-    <label for="exchange">Exchange:</label><br>
-    <input type="text" id="exchange" name="exchange"><br>
-    <label for="pairs">Number of pairs:</label><br>
-    <input type="text" id="pairs" name="pairs"><br>
-    <input type="submit" value="Submit">
-  </form>
-  <div id="result"></div>
+  <div class="container">
+    <h1>Token Pairs with Highest Liquidity</h1>
+    <p>This application fetches the token pairs with the highest liquidity from either Uniswap or Sushiswap.</p>
+    <form id="form">
+      <label for="exchange">Exchange:</label><br>
+      <select id="exchange" name="exchange">
+        <option value="uniswap">Uniswap</option>
+        <option value="sushiswap">Sushiswap</option>
+      </select><br>
+      <label for="pairs">Number of pairs:</label><br>
+      <input type="number" id="pairs" name="pairs" min="1" max="20"><br>
+      <input type="submit" value="Submit">
+    </form>
+    <div id="result"></div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
