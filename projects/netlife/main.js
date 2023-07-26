@@ -1,122 +1,117 @@
+// import dependencies
 import * as tf from '@tensorflow/tfjs';
 
-let breedThreshold = 0.75;
-let updateDelay = 100;
-let intervalId;
-
-const WIDTH = 400;
-const HEIGHT = 400;
+// constants
+const GRID_WIDTH = 40;
+const GRID_HEIGHT = 40;
 const CELL_SIZE = 10;
-const GRID_WIDTH = WIDTH / CELL_SIZE;
-const GRID_HEIGHT = HEIGHT / CELL_SIZE;
+const BREED_THRESHOLD = 0.75;
+const AGE_LIMIT = 100;
 
-class Cell {
-    constructor() {
-        this.model = tf.sequential();
-        this.model.add(tf.layers.dense({units: 18, inputShape: [9], activation: 'relu'}));
-        this.model.add(tf.layers.dense({units: 9, activation: 'relu'}));
-        this.model.add(tf.layers.dense({units: 1, activation: 'sigmoid'}));
-
-        this.model.compile({optimizer: 'adam', loss: 'meanSquaredError'});
-
-        this.state = Math.random() > 0.5 ? 1 : 0;
-        this.age = 0;
-    }
-
-    async predictNextState(neighborhoodStates) {
-        const targetState = neighborhoodStates.reduce((a, b) => a + b, 0) / neighborhoodStates.length;
-        const predictedState = this.model.predict(tf.tensor2d([neighborhoodStates], [1, neighborhoodStates.length])).arraySync()[0][0];
-
-        await this.model.fit(tf.tensor2d([neighborhoodStates], [1, neighborhoodStates.length]), tf.tensor2d([targetState], [1, 1]));
-
-        this.state = predictedState;
-        this.age++;
-
-        if (this.age > 100) {
-            this.state = 0;
-            this.age = 0;
-        }
-    }
+// Create neural network model
+function createModel() {
+    const model = tf.sequential();
+    model.add(tf.layers.dense({units: 18, inputShape: [9], activation: 'relu'}));
+    model.add(tf.layers.dense({units: 9, activation: 'relu'}));
+    model.add(tf.layers.dense({units: 1, activation: 'sigmoid'}));
+    return model;
 }
 
+// initialize grid with cells
 let grid = [];
-
-function initGrid() {
-    for (let i = 0; i < GRID_HEIGHT; i++) {
-        const row = [];
-        for (let j = 0; j < GRID_WIDTH; j++) {
-            row.push(new Cell());
-        }
-        grid.push(row);
+for (let i = 0; i < GRID_HEIGHT; i++) {
+    let row = [];
+    for (let j = 0; j < GRID_WIDTH; j++) {
+        let cell = {
+            model: createModel(),
+            state: Math.random() > 0.5 ? 1 : 0,
+            age: 0,
+        };
+        row.push(cell);
     }
+    grid.push(row);
 }
 
-function getNeighborhood(i, j) {
-    let neighborhood = [];
-    for (let x = i - 1; x <= i + 1; x++) {
-        for (let y = j - 1; y <= j + 1; y++) {
-            let xi = (x + GRID_HEIGHT) % GRID_HEIGHT;
-            let yj = (y + GRID_WIDTH) % GRID_WIDTH;
-            neighborhood.push(grid[xi][yj].state);
-        }
-    }
-    return neighborhood;
-}
-
-async function updateGrid() {
+// main update function
+function update() {
     for (let i = 0; i < GRID_HEIGHT; i++) {
         for (let j = 0; j < GRID_WIDTH; j++) {
-            const neighborhoodStates = getNeighborhood(i, j);
-            await grid[i][j].predictNextState(neighborhoodStates);
-            if (grid[i][j].state > breedThreshold) {
-                grid[Math.floor(Math.random() * GRID_HEIGHT)][Math.floor(Math.random() * GRID_WIDTH)] = new Cell();
+            let neighborhoodStates = getNeighborhoodStates(i, j);
+            let targetState = tf.mean(neighborhoodStates);
+            let predictedState = grid[i][j].model.predict(tf.tensor(neighborhoodStates, [1, 9]));
+
+            // calculate loss
+            let loss = tf.losses.meanSquaredError(targetState, predictedState);
+
+            // optimize the model
+            grid[i][j].model.compile({optimizer: 'adam', loss: 'meanSquaredError'});
+            grid[i][j].model.fit(tf.tensor(neighborhoodStates, [1, 9]), tf.tensor([targetState]), {epochs: 1});
+
+            grid[i][j].state = predictedState.dataSync()[0];
+            grid[i][j].age++;
+
+            if (grid[i][j].age > AGE_LIMIT) {
+                resetCell(i, j);
+            }
+
+            if (grid[i][j].state > BREED_THRESHOLD) {
+                breedCell(i, j);
             }
         }
     }
 }
 
-function draw() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    for (let i = 0; i < GRID_HEIGHT; i++) {
-        for (let j = 0; j < GRID_WIDTH; j++) {
-            if (grid[i][j].state > 0.5) {
-                ctx.fillStyle = '#000';
-                ctx.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+// get neighborhood states
+function getNeighborhoodStates(i, j) {
+    let states = [];
+    for (let x = -1; x <= 1; x++) {
+        for (let y = -1; y <= 1; y++) {
+            let ni = (i + x + GRID_HEIGHT) % GRID_HEIGHT;
+            let nj = (j + y + GRID_WIDTH) % GRID_WIDTH;
+            states.push(grid[ni][nj].state);
+        }
+    }
+    return states;
+}
+
+// reset cell
+function resetCell(i, j) {
+    grid[i][j].state = 0;
+    grid[i][j].age = 0;
+}
+
+// breed cell
+function breedCell(i, j) {
+    // find neighbor to breed with
+    for (let x = -1; x <= 1; x++) {
+        for (let y = -1; y <= 1; y++) {
+            let ni = (i + x + GRID_HEIGHT) % GRID_HEIGHT;
+            let nj = (j + y + GRID_WIDTH) % GRID_WIDTH;
+            if (grid[ni][nj].state > BREED_THRESHOLD) {
+                let childModel = createModel();
+                let weights1 = grid[i][j].model.getWeights();
+                let weights2 = grid[ni][nj].model.getWeights();
+                let averageWeights = [];
+                for (let k = 0; k < weights1.length; k++) {
+                    averageWeights.push(weights1[k].add(weights2[k]).div(tf.scalar(2)));
+                }
+                childModel.setWeights(averageWeights);
+                let childCell = {
+                    model: childModel,
+                    state: 0,
+                    age: 0,
+                };
+                grid[Math.floor(Math.random() * GRID_HEIGHT)][Math.floor(Math.random() * GRID_WIDTH)] = childCell;
             }
         }
     }
 }
 
-function init() {
-    if (intervalId) {
-        clearInterval(intervalId);
-    }
-    initGrid();
-    intervalId = setInterval(async function() {
-        await updateGrid();
-        draw();
-    }, updateDelay);
+// main game loop
+function gameLoop() {
+    update();
+    setTimeout(gameLoop, 100);
 }
 
-function reset() {
-    if (intervalId) {
-        clearInterval(intervalId);
-    }
-    grid = [];
-    init();
-}
-
-const form = document.getElementById('settings-form');
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    breedThreshold = parseFloat(form['breed-threshold'].value);
-    updateDelay = parseInt(form['update-delay'].value);
-    reset();
-});
-
-const resetButton = document.getElementById('reset-btn');
-resetButton.addEventListener('click', reset);
-
-init();
+// start the game loop
+gameLoop();
