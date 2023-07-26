@@ -14,4 +14,32 @@ header {
 
 main {
     padding: 20px;
+    width: 60%;
+    margin: auto;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form input[type="number"] {
+    padding: 5px;
+    margin: 10px 0;
+}
+
+form input[type="submit"] {
+    padding: 5px 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #444;
+}
+
+div#content h2 {
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
 }
