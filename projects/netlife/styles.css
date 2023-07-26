@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.settings {
+    margin-bottom: 20px;
+}
+
+.simulation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#canvas {
+    border: 1px solid black;
+}
+
+#reset-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+}
