@@ -19,9 +19,10 @@ const getBlocks = async (blockNumber) => {
 
         // Create the block panel
         let blockPanel = document.createElement('div');
+        blockPanel.classList.add('block-panel');
         blockPanel.innerHTML = `
-            <h2 onclick="togglePanel(event)">Block ${i + 1} (Block Number: ${block.number}) - Click to expand</h2>
-            <div style="display: none;">
+            <h2>Block ${i + 1} (Block Number: ${block.number})</h2>
+            <div class="block-details">
                 <p>Number of transactions: ${block.transactions.length}</p>
             </div>
         `;
@@ -45,22 +46,16 @@ const getBlocks = async (blockNumber) => {
                     From: ${tx.from}
                 `;
             }
-            blockPanel.children[1].appendChild(txDetails);
+            blockPanel.querySelector('.block-details').appendChild(txDetails);
         }
 
         // Append the block panel to the content div
         content.appendChild(blockPanel);
+
+        // Add click event to toggle block details
+        blockPanel.querySelector('h2').addEventListener('click', (event) => {
+            let blockDetails = event.target.nextElementSibling;
+            blockDetails.style.display = blockDetails.style.display === "none" ? "block" : "none";
+        });
     }
 };
-
-const togglePanel = (event) => {
-    let blockPanel = event.target.nextSibling;
-
-    // Toggle display property
-    if (blockPanel.style.display === "none") {
-        blockPanel.style.display = "block";
-    } else {
-        blockPanel.style.display = "none";
-    }
-};
-
