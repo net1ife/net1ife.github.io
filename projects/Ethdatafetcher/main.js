@@ -23,26 +23,32 @@ async function getTransactionDetails(tx) {
     }
 }
 
-function printTransactionDetails(txDetails, idx) {
+function printTransactionDetails(txDetails, idx, blockDiv) {
+    let p = document.createElement('p');
     if (txDetails['to']) {
-        contentDiv.innerHTML += `<p>Transaction ${idx}: ${txDetails['hash']} <br>From: ${txDetails['from']} <br>To: ${txDetails['to']} <br>Amount: ${web3.utils.fromWei(txDetails['value'], 'ether')} Ether</p>`;
+        p.innerHTML = `Transaction ${idx}: ${txDetails['hash']} <br>From: ${txDetails['from']} <br>To: ${txDetails['to']} <br>Amount: ${web3.utils.fromWei(txDetails['value'], 'ether')} Ether`;
     } else {
-        contentDiv.innerHTML += `<p>Contract creation transaction ${idx}: ${txDetails['hash']} <br>From: ${txDetails['from']}</p>`;
+        p.innerHTML = `Contract creation transaction ${idx}: ${txDetails['hash']} <br>From: ${txDetails['from']}`;
     }
+    blockDiv.appendChild(p);
 }
 
 async function printBlockDetails(latestBlock, i) {
     const block = await getBlockDetails(latestBlock - i);
     if (block == null) return;
 
-    contentDiv.innerHTML += `<h2>Block ${i+1} (Block Number: ${block.number})</h2>`;
-    contentDiv.innerHTML += `<p>Number of transactions: ${block.transactions.length}</p>`;
+    let blockDiv = document.createElement('div');
+    blockDiv.className = "blockDiv";
+    blockDiv.innerHTML += `<h2 onclick="this.nextElementSibling.classList.toggle('hidden')">Block ${i+1} (Block Number: ${block.number})</h2><div class='hidden'>`;
+    blockDiv.innerHTML += `<p>Number of transactions: ${block.transactions.length}</p>`;
 
     for (let idx = 0; idx < block.transactions.length; idx++) {
         const txDetails = await getTransactionDetails(block.transactions[idx]);
         if (txDetails == null) continue;
-        printTransactionDetails(txDetails, idx+1);
+        printTransactionDetails(txDetails, idx+1, blockDiv);
     }
+    blockDiv.innerHTML += '</div>';
+    contentDiv.appendChild(blockDiv);
 }
 
 async function printBlocks(numBlocks) {
@@ -64,4 +70,3 @@ blockForm.onsubmit = function(e) {
     contentDiv.innerHTML = "";  // Clear the content
     printBlocks(blockNumber.value);  // Print the requested number of blocks
 }
-
