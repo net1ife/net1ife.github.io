@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+</head>
+<body>
+    <div class="settings">
+        <form id="settings-form">
+            <label for="breed-threshold">Breed Threshold:</label><br>
+            <input type="number" id="breed-threshold" name="breed-threshold" value="0.75" min="0" max="1" step="0.01"><br>
+            <label for="update-delay">Update Delay (ms):</label><br>
+            <input type="number" id="update-delay" name="update-delay" value="100" min="10" max="2000"><br>
+            <input type="submit" value="Update Settings">
+        </form>
+    </div>
+    <div class="simulation">
+        <canvas id="canvas" width="400" height="400"></canvas>
+        <button id="reset-btn">Reset</button>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
