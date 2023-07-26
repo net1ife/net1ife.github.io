@@ -1,7 +1,9 @@
 let boardElement = document.getElementById('sudoku-board');
 let newGameButton = document.getElementById('new-game');
+let scoreElement = document.getElementById('score');
 
 let board = [...Array(9)].map(e => Array(9).fill(0));
+let solution = [...Array(9)].map(e => Array(9).fill(0));
 
 function drawBoard() {
     boardElement.innerHTML = '';
@@ -21,35 +23,29 @@ function checkValidity(e, i, j) {
     let value = e.target.value;
     if (value === '') return;
     let num = parseInt(value);
-    if (!Number.isInteger(num) || num < 1 || num > 9 || !isValidMove(i, j, num)) {
+    if (!Number.isInteger(num) || num < 1 || num > 9 || num !== solution[i][j]) {
         e.target.classList.add('error');
+        scoreElement.textContent = parseInt(scoreElement.textContent) + 1;
     } else {
         e.target.classList.remove('error');
     }
 }
 
-function isValidMove(row, col, num) {
-    for(let i = 0; i < 9; i++) {
-        if(board[row][i] == num || board[i][col] == num) return false;
-    }
-    let boxRowStart = row - row % 3, boxColStart = col - col % 3;
-    for(let i = 0; i < 3; i++) {
-        for(let j = 0; j < 3; j++) {
-            if(board[i + boxRowStart][j + boxColStart] == num) return false;
-        }
-    }
-    return true;
-}
-
 function generatePuzzle() {
     for(let i = 0; i < 9; i++) {
         for(let j = 0; j < 9; j++) {
-            board[i][j] = Math.random() < 0.2 ? Math.ceil(Math.random() * 9) : 0;
+            let num = Math.ceil(Math.random() * 9);
+            board[i][j] = Math.random() < 0.2 ? num : 0;
+            solution[i][j] = num;
         }
     }
     drawBoard();
 }
 
-newGameButton.addEventListener('click', generatePuzzle);
+newGameButton.addEventListener('click', () => {
+    scoreElement.textContent = '0';
+    generatePuzzle();
+});
 
 generatePuzzle();
+
