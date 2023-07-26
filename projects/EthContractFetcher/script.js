@@ -1,19 +1,15 @@
 // Connect to Ethereum mainnet via Infura
 const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/f38ec3cfb102401da04f4e0fbcb041f2'));
 
-function getLatestBlockNumber() {
-    return web3.eth.getBlockNumber();
-}
-
 function getBlockData(blockNumber) {
-    return web3.eth.getBlock(blockNumber, true);  // 'true' to get full transactions
+    return web3.eth.getBlock(blockNumber, true);  
 }
 
 function filterContractCreationTransactions(blockData) {
-    return blockData.transactions.filter(tx => tx.to === null);  // contract creation transactions have 'to' field as null
+    return blockData.transactions.filter(tx => tx.to === null); 
 }
 
-getLatestBlockNumber().then(blockNumber => {
+function fetchAndDisplayBlockData(blockNumber) {
     getBlockData(blockNumber).then(blockData => {
         const contractCreationTransactions = filterContractCreationTransactions(blockData);
         const resultsElement = document.getElementById('results');
@@ -29,4 +25,10 @@ getLatestBlockNumber().then(blockNumber => {
             `;
         });
     });
+}
+
+web3.eth.getBlockNumber().then(latestBlockNumber => {
+    for(let i = 0; i < 10; i++) {
+        fetchAndDisplayBlockData(latestBlockNumber - i);
+    }
 });
