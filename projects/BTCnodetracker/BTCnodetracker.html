@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bitcoin Node Tracker</title>
+    <title>Node Mapping</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Bitcoin Node Tracker</h1>
-        <div id="map"></div>
-        <div id="info-panel">
-            <h3 id="total-nodes"></h3>
-            <ul id="node-data"></ul>
-        </div>
+    <div id="info">
+        <h1 id="total-nodes"></h1>
+        <ul id="node-data"></ul>
     </div>
+    <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+    <script src="nodes.js"></script>
 </body>
 </html>
