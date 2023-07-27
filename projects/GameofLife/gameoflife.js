@@ -1,7 +1,8 @@
 const CELL_SIZE = 10;  
-const GRID_WIDTH = 400 / CELL_SIZE;  
-const GRID_HEIGHT = 400 / CELL_SIZE;  
+const GRID_WIDTH = 800 / CELL_SIZE;  
+const GRID_HEIGHT = 600 / CELL_SIZE;  
 const DELAY = 100;  
+
 let canvas = document.getElementById('gameCanvas');
 let context = canvas.getContext('2d');
 
@@ -43,7 +44,7 @@ function updateGrid() {
 }
 
 function drawGrid() {
-    context.clearRect(0, 0, 400, 400);
+    context.clearRect(0, 0, 800, 600);
     for (let row = 0; row < GRID_HEIGHT; row++) {
         for (let col = 0; col < GRID_WIDTH; col++) {
             let x = col * CELL_SIZE;
