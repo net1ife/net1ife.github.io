@@ -80,12 +80,13 @@ nav ul li a:hover,
 }
 
 .project-img {
-    height: 200px;
-    background-color: #4f4f4f;
     display: flex;
     justify-content: center; 
     align-items: center; 
+    height: 200px;
+    background-color: #000000; 
 }
+
 
 .project-img img {
     max-width: 100%; 
