@@ -36,31 +36,38 @@ function display_data(nodesPerCountry) {
 }
 
 async function map_data(nodesPerCountry) {
-    const map = L.map('map').setView([0, 0], 1);  // Initial focus point of the map
+    const map = L.map('map').setView([0, 0], 1);  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
     }).addTo(map);
 
+    let promises = [];
+
     for (let country in nodesPerCountry) {
         let nodesInCountry = nodesPerCountry[country];
         for (let i = 0; i < nodesInCountry; i++) {
-            let coords = await getRandomCoordsInCountry(country);
-            L.marker(coords).addTo(map);
+            promises.push(getRandomCoordsInCountry(country));
         }
+    }
+
+    let coords = await Promise.all(promises);
+
+    for (let coord of coords) {
+        L.marker(coord).addTo(map);
     }
 }
 
 async function getRandomCoordsInCountry(country) {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?country=${country}&format=json`);
     const data = await response.json();
-    if (data.length === 0) return [0, 0];  // In case no data was found for the country
+    if (data.length === 0) return [0, 0]; 
     let lat = parseFloat(data[0].lat);
     let lon = parseFloat(data[0].lon);
-    // Add some randomness to the coordinates
-    lat += Math.random() - 0.5;
-    lon += Math.random() - 0.5;
+    // Add more randomness to the coordinates
+    lat += Math.random() * 2 - 1;
+    lon += Math.random() * 2 - 1;
     return [lat, lon];
 }
 
-// Call the function to get the data when the page loads
+
 get_node_data();
