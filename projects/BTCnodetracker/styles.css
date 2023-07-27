@@ -43,9 +43,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10%; /* Solution 2: adding padding to the container */
 }
 
 #node-chart {
-    height: 75%;
-    width: 75%;
+    height: 50%; /* Solution 1: reducing the size of the chart */
+    width: 50%; /* Solution 1: reducing the size of the chart */
+    max-height: 600px; /* Solution 3: adding a maximum height */
+    max-width: 600px; /* Solution 3: adding a maximum width */
 }
