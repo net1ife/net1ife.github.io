@@ -98,6 +98,14 @@ footer {
     color: #66ff00;
 }
 
+.project-img {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 200px;
+}
+
+
 @media only screen and (max-width: 992px) {
     .project {
         width: calc(50% - 20px);
