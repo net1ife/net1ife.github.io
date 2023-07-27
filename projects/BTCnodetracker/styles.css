@@ -38,7 +38,14 @@ body {
     border-bottom: none;
 }
 
-#map {
+#chart-container {
     flex-grow: 1;
-    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#node-chart {
+    height: 75%;
+    width: 75%;
 }
