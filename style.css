@@ -90,7 +90,7 @@ nav ul li a:hover,
 .project-img img {
     max-width: 100%; 
     max-height: 100%; 
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .project-title {
