@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #5e3a81, #9c57cc);
-    color: #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #1f1f1f;
+    color: #f5f5f5;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -13,23 +13,6 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    padding: 0;
-}
-
-nav ul li a {
-    color: #f0f0f0;
-    text-decoration: none;
-}
-
-nav ul li a:hover,
-.projects li a:hover {
-    color: #9c57cc;
 }
 
 header {
@@ -43,7 +26,24 @@ header {
 
 .title {
     font-size: 1.5em;
-    color: #9c57cc;
+    color: #66ff00;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+}
+
+nav ul li a {
+    color: #f5f5f5;
+    text-decoration: none;
+}
+
+nav ul li a:hover,
+.project-link:hover {
+    color: #66ff00;
 }
 
 .projects {
@@ -51,35 +51,57 @@ header {
 }
 
 .projects h3 {
-    color: #f0f0f0;
+    color: #f5f5f5;
     font-size: 1.5em;
     margin-bottom: 20px;
     text-align: center;
 }
 
-.projects ul {
+.project-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    gap: 20px;
 }
 
-.projects li {
-    background: #5e3a81;
-    padding: 20px;
+.project {
+    background-color: #333333;
     border-radius: 15px;
-    margin: 10px;
-    transition: 0.3s all ease-in-out;
+    overflow: hidden;
+    width: calc(33.33% - 20px);
 }
 
-.projects li:hover {
-    background: #9c57cc;
-    transform: scale(1.05);
+.project-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.project-img {
+    height: 200px;
+    background-color: #4f4f4f;
+}
+
+.project-title {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 footer {
     text-align: center;
     padding: 20px 0;
-    color: #9c57cc;
+    color: #66ff00;
+}
+
+@media only screen and (max-width: 992px) {
+    .project {
+        width: calc(50% - 20px);
+    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -90,5 +112,9 @@ footer {
     nav ul {
         flex-direction: column;
         text-align: center;
+    }
+
+    .project {
+        width: 100%;
     }
 }
