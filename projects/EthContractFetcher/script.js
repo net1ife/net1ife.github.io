@@ -14,15 +14,19 @@ function fetchAndDisplayBlockData(blockNumber) {
         const contractCreationTransactions = filterContractCreationTransactions(blockData);
         const resultsElement = document.getElementById('results');
         contractCreationTransactions.forEach(tx => {
-            resultsElement.innerHTML += `
-                <p>
-                    Block: ${blockData.number}<br>
-                    From: ${tx.from}<br>
-                    Contract Address: ${tx.contractAddress}<br>
-                    Timestamp: ${new Date(blockData.timestamp * 1000).toLocaleString()}<br>
-                    ---------------------
-                </p>
-            `;
+            web3.eth.getTransactionReceipt(tx.hash, function(error, receipt){
+                if(!error){
+                    resultsElement.innerHTML += `
+                        <p>
+                            Block: ${blockData.number}<br>
+                            From: ${tx.from}<br>
+                            Contract Address: ${receipt.contractAddress}<br>
+                            Timestamp: ${new Date(blockData.timestamp * 1000).toLocaleString()}<br>
+                            ---------------------
+                        </p>
+                    `;
+                }
+            });
         });
     });
 }
